@@ -2,12 +2,40 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About</router-link> |
+<v-btn v-if="user" text @click="signOut">Sign Out </v-btn>
+<v-btn v-else text @click="signIn"> Sign In </v-btn>
     </div>
     <router-view />
   </div>
 </template>
 
+<script>
+import { signIn, signOut, auth } from "./firebase";
+export default {
+  data() {
+    return {
+      user: auth.currentUser,
+    };
+  },
+  mounted() {
+    auth.onAuthStateChanged((user) => {
+      this.user = user;
+    });
+  },
+  methods: {
+    signIn() {
+      signIn();
+    },
+    signOut() {
+      signOut();
+      if (this.$route.path !== "/") {
+        this.$router.push("/");
+      }
+    },
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
