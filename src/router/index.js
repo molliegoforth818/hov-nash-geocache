@@ -1,15 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import NashMap from "../views/NashMap.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
-  }
+    name: "NashMap",
+    component: NashMap,
+  },
 ];
 
 const router = new VueRouter({
