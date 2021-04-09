@@ -10,7 +10,7 @@
       :lat-lng="[cache.lat, cache.lon]"
     >
       <l-popup>
-        <h2 class="purple--text">
+        <h2 class="green--text">
           {{ cache.title }}
         </h2>
         <h5 class="blue-grey--text">Hidden by {{ cache.username }}</h5>

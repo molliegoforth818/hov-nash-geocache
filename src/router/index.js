@@ -7,8 +7,14 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
+    redirect() {
+      return "/map";
+    }
+  },
+  {
+    path: "/map",
     name: "NashMap",
-    component: NashMap,
+    component: NashMap
   },
 ];
 

@@ -1,17 +1,25 @@
 
 <template>
-  <div id="app">
-    <div id="nav">
-<v-btn v-if="user" text @click="signOut">Sign Out </v-btn>
-<v-btn v-else text @click="signIn"> Sign In </v-btn>
-    </div>
+<v-app>
+  <nav-bar/>
+  <v-main>
     <router-view />
-  </div>
+  </v-main>
+      <v-welcome-message bottom right :value="welcomeMessage">{{
+      wecomeMessage
+    }}</v-welcome-message>
+  </v-app>
 </template>
 
 <script>
-import { signIn, signOut, auth } from "./firebase";
+import { mapMutations, mapState } from "vuex";
+import { latLng } from "leaflet";
+import { auth } from "./firebase";
+import NavBar from "./components/NavBar"
 export default {
+  components: {
+    NavBar
+  },
   data() {
     return {
       user: auth.currentUser,
@@ -21,19 +29,18 @@ export default {
     auth.onAuthStateChanged((user) => {
       this.user = user;
     });
+    window.navigator.geolocation.getCurrentPosition(({ coords }) => {
+      const userCoords = latLng(coords.latitude, coords.longitude);
+      this.setUserCoords(userCoords);
+    });
   },
   methods: {
-    signIn() {
-      signIn();
-    },
-    signOut() {
-      signOut();
-      if (this.$route.path !== "/") {
-        this.$router.push("/");
-      }
-    },
+    ...mapMutations(["setUser", "setUserCoords"])
   },
-};
+  computed: {
+    ...mapState(["welcomeMessage"])
+},
+}
 </script>
 <style>
 #app {
@@ -53,5 +60,4 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
 </style>
